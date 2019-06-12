@@ -86,8 +86,8 @@ app.get("/reviews/:id", function (req, res) {
 // Route for saving/updating an Review's associated Comment
 app.post("/reviews/:id", function (req, res) {
   db.Comment.create(req.body)
-    .then(dbComment => db.Review.findOneAndUpdate({},
-      { $push: { Comment: dbComment._id } }, { new: true }));
+    .then(dbComment => db.Review.findOneAndUpdate({ _id: req.params.id },
+      { $push: { comment: dbComment._id } }, { new: true }));
 });
 
 // Start the server
