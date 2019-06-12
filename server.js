@@ -27,7 +27,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/thtDB";
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 // Routes
@@ -49,7 +49,7 @@ app.get("/scrape", function (req, res) {
         .find('.review__title > ul > li').text();
       result.title = $(this).find('.review__title-album').text();
       result.link = $(this)
-        .find('.review__link').attr('src');
+        .find('.review__link').attr('href');
 
       // Create a new Review using the `result` object built from scraping
       db.Review.create(result)
@@ -76,7 +76,7 @@ app.get("/reviews", function (req, res) {
 });
 
 // Route for grabbing a specific Review by id, populate it with it's Comment
-app.get("/Reviews/:id", function (req, res) {
+app.get("/reviews/:id", function (req, res) {
   db.Review.findOne({ _id: req.params.id })
     .populate("Comment")
     .then(dbReview => res.json(dbReview))
@@ -84,7 +84,7 @@ app.get("/Reviews/:id", function (req, res) {
 });
 
 // Route for saving/updating an Review's associated Comment
-app.post("/Reviews/:id", function (req, res) {
+app.post("/reviews/:id", function (req, res) {
   db.Comment.create(req.body)
     .then(dbComment => db.Review.findOneAndUpdate({},
       { $push: { Comment: dbComment._id } }, { new: true }));
