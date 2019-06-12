@@ -1,1 +1,2 @@
-# Mongoose-Node-Express-Web-Scraper
+# The Hot Take
+## A Mongoose Node Express Web Scraper
