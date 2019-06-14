@@ -52,4 +52,4 @@ const ReviewSchema = new Schema( {
   }
 } );
 
-module.exports = Post = mongoose.model( 'post', PostSchema );
+module.exports = Review = mongoose.model( 'post', ReviewSchema );

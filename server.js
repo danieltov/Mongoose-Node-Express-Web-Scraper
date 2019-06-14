@@ -1,20 +1,15 @@
-var express = require( "express" );
-var logger = require( "morgan" );
-var mongoose = require( "mongoose" );
-
-// Our scraping tools
-// Axios is a promised-based http library, similar to jQuery's Ajax method
-// It works on the client and on the server
-var axios = require( "axios" );
-var cheerio = require( "cheerio" );
+const express = require( "express" );
+const logger = require( "morgan" );
+const mongoose = require( "mongoose" );
+const connectDB = require( './config/db' );
 
 // Require all models
-var db = require( "./models" );
+const db = require( "./models" );
 
-var PORT = 3000;
+const PORT = PORT = process.env.PORT || 3001;
 
 // Initialize Express
-var app = express();
+const app = express();
 
 // Configure middleware
 
@@ -27,8 +22,7 @@ app.use( express.json() );
 app.use( express.static( "public" ) );
 
 // Connect to the Mongo DB
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/thtDB";
-mongoose.connect( MONGODB_URI, { useNewUrlParser: true } );
+connectDB();
 
 // ! Old Routes
 
@@ -58,9 +52,7 @@ mongoose.connect( MONGODB_URI, { useNewUrlParser: true } );
 app.use( '/api/scrape', require( './routes/api/scrape' ) );
 app.use( '/api/users', require( './routes/api/users' ) );
 app.use( '/api/auth', require( './routes/api/auth' ) );
-app.use( '/api/profile', require( './routes/api/profile' ) );
-app.use( '/api/products', require( './routes/api/products' ) );
-app.use( '/api/messages', require( './routes/api/messages' ) );
+app.use( '/api/reviews', require( './routes/api/reviews' ) );
 
 // * Start Server
-app.listen( PORT, () => console.log( `Server started on port http://localhost/${ PORT }` ) );
+app.listen( PORT, () => console.log( `Server started on port http://localhost:${ PORT }` ) );

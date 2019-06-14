@@ -1,44 +1,44 @@
 const express = require( 'express' );
 const router = express.Router();
+const axios = require( 'axios' );
+const cheerio = require( "cheerio" );
 
-// * @route   GET api/auth
-// * @desc    Test route
+// * @route   GET api/scrape
+// * @desc    Scrape route
 // * @access  Public
 router.get( '/', async ( req, res ) => {
 
   // First, we grab the body of the html with axios
-  axios.get( "https://pitchfork.com/reviews/best/albums/" ).then( function ( response ) {
-    // Then, we load that into cheerio and save it to $ for a shorthand selector
-    var $ = cheerio.load( response.data );
+  const html = await axios.get( "https://pitchfork.com/reviews/best/albums/" );
 
-    // Now, we grab every h2 within an$() Review tag, and do the following:
-    $( ".review" ).each( function ( i, element ) {
-      // Save an empty result object
-      var result = {};
+  // Then, we load that into cheerio and save it to $ for a shorthand selector
+  const $ = cheerio.load( html );
 
-      // Add the text and href of every link, and save them as properties of the result object
-      result.artist = $( this )
-        .find( '.review__title > ul > li' ).text();
-      result.title = $( this ).find( '.review__title-album' ).text();
-      result.link = $( this )
-        .find( '.review__link' ).attr( 'href' );
+  // Now, we grab every h2 within an$() Review tag, and do the following:
 
-      // Create a new Review using the `result` object built from scraping
-      db.Review.create( result )
-        .then( function ( dbReview ) {
-          // View the added result in the console
-          console.log( dbReview );
-        } )
-        .catch( function ( err ) {
-          // If an error occurred, log it
-          console.log( err );
-        } );
-    } );
+  $( ".review" ).each( async ( i, element ) => {
+    // Save an empty result object
+    var result = {};
 
-    // Send a message to the client
-    res.send( "Scrape Complete" );
+    // Add the text and href of every link, and save them as properties of the result object
+    result.artist = $( this )
+      .find( '.review__title > ul > li' ).text();
+    result.title = $( this ).find( '.review__title-album' ).text();
+    result.link = $( this )
+      .find( '.review__link' ).attr( 'href' );
+
+    // Create a new Review using the `result` object built from scraping
+
+    try {
+      const dbReview = await db.Review.create( result );
+      console.log( dbReview );
+    } catch ( err ) {
+      console.error( err.message );
+    }
   } );
 
+  // Send a message to the client
+  res.send( 'Scraped!' );
 } );
 
 module.exports = router;
