@@ -22,6 +22,7 @@ $(document).on("click", "p", function () {
   })
     // With that done, add the comment information to the page
     .then(function (data) {
+      console.log('this is the comment data?');
       console.log(data);
       // The title of the review
       $("#comments").append("<h2>" + data.title + "</h2>");
@@ -35,7 +36,7 @@ $(document).on("click", "p", function () {
       // If there's a comment in the review
       if (data.comment) {
         // Place the title of the comment in the title input
-        $("#nameinput").val(data.comment.title);
+        $("#nameinput").val(data.comment.name);
         // Place the body of the comment in the body textarea
         $("#bodyinput").val(data.comment.body);
       }
