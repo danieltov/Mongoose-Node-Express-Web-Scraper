@@ -6,15 +6,14 @@ const ReviewSchema = new Schema( {
     type: Schema.Types.ObjectId,
     ref: 'users'
   },
-  text: {
+  title: {
     type: String,
-    required: true
   },
-  name: {
-    type: String
+  link: {
+    type: String,
   },
   image: {
-    type: String
+    type: String,
   },
   likes: [
     {
@@ -52,4 +51,4 @@ const ReviewSchema = new Schema( {
   }
 } );
 
-module.exports = Review = mongoose.model( 'post', ReviewSchema );
+module.exports = Review = mongoose.model( 'review', ReviewSchema );

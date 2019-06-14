@@ -3,16 +3,13 @@ const logger = require( "morgan" );
 const mongoose = require( "mongoose" );
 const connectDB = require( './config/db' );
 
-// Require all models
-const db = require( "./models" );
-
 const PORT = process.env.PORT || 3001;
 
 // Initialize Express
 const app = express();
 
-// Configure middleware
 
+// Configure middleware
 // Use morgan logger for logging requests
 app.use( logger( "dev" ) );
 // Parse request body as JSON
