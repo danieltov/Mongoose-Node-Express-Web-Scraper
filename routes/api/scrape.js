@@ -1,38 +1,47 @@
-const express = require( 'express' );
+const express = require('express');
 const router = express.Router();
-const axios = require( 'axios' );
-const cheerio = require( "cheerio" );
+const axios = require('axios');
+const cheerio = require('cheerio');
 
-const db = require( '../../models' );
+const db = require('../../models');
 
 // * @route   GET api/scrape
 // * @desc    Scrape route
 // * @access  Public
-router.get( '/', async ( req, res ) => {
+router.get('/', async (req, res) => {
+  const response = await axios.get(
+    'https://pitchfork.com/reviews/best/albums/'
+  );
+  const $ = cheerio.load(response.data);
 
-  const response = await axios.get( "https://pitchfork.com/reviews/best/albums/" )
-  const $ = cheerio.load( response.data );
-
-  $( ".review" ).each( function ( i, element ) {
+  $('.review').each(function(i, element) {
     let result = {};
 
-    result.artist = $( this )
-      .find( '.review__title > ul > li' ).text();
-    result.title = $( this ).find( '.review__title-album' ).text();
-    result.link = $( this )
-      .find( '.review__link' ).attr( 'href' );
-    result.image = $( this ).find( '.review__artwork > div > img' ).attr( 'src' );
+    result.artist = $(this)
+      .find('.review__title > ul > li')
+      .text();
+    result.title = $(this)
+      .find('.review__title-album')
+      .text();
+    result.link =
+      'https://pitchfork.com/' +
+      $(this)
+        .find('.review__link')
+        .attr('href');
+    result.image = $(this)
+      .find('.review__artwork > div > img')
+      .attr('src');
 
-    db.Review.create( result )
-      .then( function ( dbReview ) {
-        console.log( dbReview );
-      } )
-      .catch( function ( err ) {
-        console.log( err );
-      } );
-  } );
+    db.Review.create(result)
+      .then(function(dbReview) {
+        console.log(dbReview);
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+  });
 
-  res.send( "Scrape Complete" );
-} );
+  res.send('Scrape Complete');
+});
 
 module.exports = router;
