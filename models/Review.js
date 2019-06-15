@@ -1,19 +1,19 @@
-const mongoose = require( 'mongoose' );
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const ReviewSchema = new Schema( {
+const ReviewSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'users'
   },
   title: {
-    type: String,
+    type: String
   },
   link: {
-    type: String,
+    type: String
   },
   image: {
-    type: String,
+    type: String
   },
   likes: [
     {
@@ -29,7 +29,7 @@ const ReviewSchema = new Schema( {
         type: Schema.Types.ObjectId,
         ref: 'users'
       },
-      text: {
+      body: {
         type: String,
         required: true
       },
@@ -49,6 +49,6 @@ const ReviewSchema = new Schema( {
     type: Date,
     default: Date.now
   }
-} );
+});
 
-module.exports = Review = mongoose.model( 'review', ReviewSchema );
+module.exports = Review = mongoose.model('review', ReviewSchema);
