@@ -1,66 +1,97 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Scraping With Mongoose</title>
-    <style>
-      body {
-        background-color: #f2f6d0;
-      }
 
-      #wrapper {
-        width: 960px;
-        margin-left: auto;
-        margin-right: auto;
-        padding-top: 5%;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <title>Scraping With Mongoose</title>
+  <link rel='icon' href='images/icon.ico' type='image/x-icon' />
 
-      #reviews {
-        display: inline-block;
-        overflow: auto;
-        width: 60%;
-        height: 700px;
-      }
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <link rel="stylesheet" href="app.css">
+</head>
 
-      #commentForm,
-      #comments {
-        float: right;
-        width: 30%;
-      }
-
-      textarea,
-      input {
-        display: block;
-        width: 100%;
-        background-color: #fcf5c7;
-      }
-
-      input {
-        height: 36px;
-        font-size: 24px;
-      }
-
-      textarea {
-        height: 200px;
-        font-size: 18px;
-      }
-    </style>
-  </head>
-
-  <body>
-    <div id="wrapper">
-      <h1>
-        These Are The Best New Albums
-      </h1>
-      <p class="lead">
-        According to the Hipsters over at <a>Pitchfork.com</a>. Use this little
-        playground as a place to keep your notes on their reviews.
-      </p>
-      <div id="reviews"></div>
-      <div id="comments"></div>
-      <div id="commentForm"></div>
+<body class="blue-grey lighten-5">
+  <div class="container">
+    <div class="section">
+      <div class="row valign-wrapper">
+        <div class="col s12 m7">
+          <h1>
+            These Are The "Best" New Albums
+          </h1>
+        </div>
+        <div class="col s12 m5">
+          <p class="lead">
+            According to the Hipsters over at <a
+              href="https://pitchfork.com/">Pitchfork.com</a>. Are they right? Sound
+            off.
+          </p>
+        </div>
+      </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="app.js"></script>
-  </body>
+
+    <div class="divider"></div>
+
+    <div class="row" id="reviews">
+
+      
+
+    </div>
+  </div>
+
+  <!-- Comments Modal -->
+  <div id="comments" class="modal">
+    <div class="modal-content">
+      <h4>Sound Off</h4>
+      <div class="row" id="populateComments">
+        <div class="col s12">
+          <div class="card-panel grey lighten-5 z-depth-1">
+          <div class="row valign-wrapper">
+            <div class="col s2">
+              <img src="https://source.unsplash.com/random/500x500?beard" alt="" class="circle responsive-img"> 
+            </div>
+            <div class="col s10">
+              <p class="black-text comment-title">
+                This is a square image. Add the "circle" class to it to make it appear circular.
+              </p>
+              <p class="black-text comment-body">
+                This is a square image. Add the "circle" class to it to make it appear circular.
+              </p>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="row" id="commentForm">
+        <h5>Leave your comment</h5>
+        <div class="col s12 input-field">
+          <input placeholder="Placeholder" id="name" name="name" type="text" class="validate">
+          <label for="name">Name</label>
+        </div>
+        <div class="col s12 input-field">
+           <textarea id="commentBody" class="materialize-textarea"></textarea>
+          <label for="commentBody">Comment</label>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button type="submit" id="addComment"
+        class="modal-close waves-effect waves-light btn">Submit Comment <i class="material-icons right">send</i></button>
+    </div>
+  </div>
+
+  </div>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="app.js"></script>
+</body>
+
 </html>
