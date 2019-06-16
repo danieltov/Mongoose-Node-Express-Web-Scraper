@@ -1,0 +1,9 @@
+/* === Comments Styles === */
+
+.modal {
+  max-height: 80%;
+}
+
+#commentForm {
+  margin-top: 1.5rem;
+}
