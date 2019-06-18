@@ -1,7 +1,4 @@
 $(() => {
-  // Activat modal
-  $('.modal').modal();
-
   // ! === RENDER FUNCTIONS ===
 
   const renderReviewCard = dbReview => {
@@ -17,7 +14,7 @@ $(() => {
       .addClass(
         'btn-floating halfway-fab waves-effect waves-light cyan modal-trigger'
       )
-      .attr('href', '#comments').html(`<i
+      .attr({ href: '#comments', 'data-id': dbReview._id }).html(`<i
                 class="material-icons">add</i></a>`);
     const $cardAction = $('<div>').addClass('card-action');
     const $link = $('<a>')
@@ -36,82 +33,81 @@ $(() => {
     return $('#reviews').append($col);
   };
 
+  const renderComments = dbComment => {
+    const $col = $('<div>').addClass('col s12');
+    const $card = $('<div>').addClass('card-panel grey lighten-5 z-depth-1');
+    const $cardRow = $('<div>').addClass('row valign-wrapper');
+    const $cardCol1 = $('<div>').addClass('col s2');
+    const $commentImg = $('<img>')
+      .addClass('circle responsive-img')
+      .attr('src', `https://source.unsplash.com/random/500x500?beard`);
+    const $cardCol2 = $('<div>').addClass('col s10');
+    const $commentName = $('<p>')
+      .addClass('black-text')
+      .text(dbComment.name);
+    const $commentBody = $('<p>')
+      .addClass('black-text')
+      .text(dbComment.body);
+
+    // Build comment
+    $cardCol2.append($commentName, $commentBody);
+    $cardCol1.append($commentImg);
+    $cardRow.append($cardCol1, $cardCol2);
+    $card.append($cardRow);
+    $col.append($card);
+
+    return $('#populateComments').append($col);
+  };
+
   // ! === API CALLS ===
 
-  $.getJSON('/api/reviews', data => {
-    console.log(data);
-    data.forEach(dbReview => renderReviewCard(dbReview));
-  });
+  const getReviews = () => {
+    $.getJSON('/api/reviews', data => {
+      console.log(data);
+      data.forEach(dbReview => renderReviewCard(dbReview));
+    });
+  };
 
-  // Whenever someone clicks a p tag
-  $(document).on('click', 'p', function() {
-    // Empty the comments from the comment section
-    $('#commentForm').empty();
-    $('#comments').empty();
-    // Save the id from the p tag
-    var thisId = $(this).attr('data-id');
-
-    // Now make an ajax call for the review
+  const getComments = id => {
     $.ajax({
       method: 'GET',
-      url: 'api/reviews/' + thisId
-    })
-      // With that done, add the comment information to the page
-      .then(function(data) {
-        const existingComments = data.comments;
-        $('#comments').append(
-          existingComments.map(comment => {
-            return `<h4> ${comment.name}</h4><h5> ${comment.body}</h5>`;
-          })
-        );
+      url: 'api/reviews/' + id
+    }).then(data => {
+      const existingComments = data.comments;
+      existingComments.forEach(dbComment => renderComments(dbComment));
+    });
+  };
 
-        // The title of the review
-        $('#comments').append('<h2>' + data.title + '</h2>');
-        // An input to enter a new title
-        $('#comments').append("<input id='nameinput' name='name' >");
-        // A textarea to add a new comment body
-        $('#comments').append(
-          "<textarea id='bodyinput' name='body'></textarea>"
-        );
-        // A button to submit a new comment, with the id of the review saved to it
-        $('#comments').append(
-          "<button data-id='" +
-            data._id +
-            "' id='savecomment'>Save comment</button>"
-        );
-      });
+  $(document).on('click', 'a.modal-trigger', event => {
+    $('#populateComments').empty();
+    const thisId = event.currentTarget.dataset.id;
+    getComments(thisId);
+    $('#addComment').attr('data-id', thisId);
   });
 
-  // When you click the savecomment button
-  $(document).on('click', '#savecomment', function() {
-    // Grab the id associated with the review from the submit button
-    var thisId = $(this).attr('data-id');
-    var dataObj = {
-      // Value taken from title input
-      name: $('#nameinput').val(),
-      // Value taken from comment textarea
-      body: $('#bodyinput').val()
+  $(document).on('click', '#addComment', function(event) {
+    event.preventDefault();
+    const thisId = $('#addComment').attr('data-id');
+    const dataObj = {
+      name: $('#commentName').val(),
+      body: $('#commentBody').val()
     };
 
-    console.log(thisId);
-    console.log(dataObj);
-
-    // Run a POST request to change the comment, using what's entered in the inputs
     $.ajax({
       method: 'POST',
       url: 'api/reviews/' + thisId,
       data: dataObj
-    })
-      // With that done
-      .then(function(data) {
-        // Log the response
-        console.log(data);
-        // Empty the comments section
-        $('#comments').empty();
-      });
+    }).then(function(data) {
+      $('#populateComments').empty();
+      getComments(data._id);
+    });
 
     // Also, remove the values entered in the input and textarea for comment entry
-    $('#nameinput').val('');
-    $('#bodyinput').val('');
+    $('#commentName').val('');
+    $('#commentBody').val('');
   });
+
+  // Activat modal
+  $('.modal').modal();
+  getReviews();
 });

@@ -10,7 +10,7 @@
     rel="stylesheet">
   <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
-    <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="app.css">
 </head>
 
 <body class="blue-grey lighten-5">
@@ -25,9 +25,19 @@
         <div class="col s12 m5">
           <p class="lead">
             According to the Hipsters over at <a
-              href="https://pitchfork.com/">Pitchfork.com</a>. Are they right? Sound
+              href="https://pitchfork.com/">Pitchfork.com</a>. Are they right?
+            Sound
             off.
           </p>
+          <div class="row">
+            <div class="col s6">
+              <a class="waves-effect waves-light btn-large blue accent-3" href="/api/scrape">Scrape Reviews</a>
+              
+            </div>
+            <div class="col s6">
+              <a class="waves-effect waves-light btn-large red accent-4" href="/api/scrape/delete">Delete Collection</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -36,7 +46,7 @@
 
     <div class="row" id="reviews">
 
-      
+
 
     </div>
   </div>
@@ -46,23 +56,6 @@
     <div class="modal-content">
       <h4>Sound Off</h4>
       <div class="row" id="populateComments">
-        <div class="col s12">
-          <div class="card-panel grey lighten-5 z-depth-1">
-          <div class="row valign-wrapper">
-            <div class="col s2">
-              <img src="https://source.unsplash.com/random/500x500?beard" alt="" class="circle responsive-img"> 
-            </div>
-            <div class="col s10">
-              <p class="black-text comment-title">
-                This is a square image. Add the "circle" class to it to make it appear circular.
-              </p>
-              <p class="black-text comment-body">
-                This is a square image. Add the "circle" class to it to make it appear circular.
-              </p>
-            </div>
-          </div>
-        </div>
-        </div>
       </div>
 
       <div class="divider"></div>
@@ -70,19 +63,22 @@
       <div class="row" id="commentForm">
         <h5>Leave your comment</h5>
         <div class="col s12 input-field">
-          <input placeholder="Placeholder" id="name" name="name" type="text" class="validate">
+          <input placeholder="Placeholder" id="commentName" name="name" type="text"
+            class="validate">
           <label for="name">Name</label>
         </div>
         <div class="col s12 input-field">
-           <textarea id="commentBody" class="materialize-textarea"></textarea>
+          <textarea id="commentBody" class="materialize-textarea"></textarea>
           <label for="commentBody">Comment</label>
         </div>
       </div>
-
     </div>
     <div class="modal-footer">
       <button type="submit" id="addComment"
-        class="modal-close waves-effect waves-light btn">Submit Comment <i class="material-icons right">send</i></button>
+        class="waves-effect waves-light btn">Submit Comment <i
+          class="material-icons right">send</i></button>
+      <button type="submit"
+        class="modal-close waves-effect waves-light btn">Close</button>
     </div>
   </div>
 

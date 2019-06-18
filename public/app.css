@@ -7,3 +7,7 @@
 #commentForm {
   margin-top: 1.5rem;
 }
+
+.card .card-image .card-title {
+  text-shadow: 4px 5px 9px rgba(0, 0, 0, 0.7);
+}
