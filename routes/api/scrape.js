@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
@@ -18,7 +19,7 @@ router.get('/', async (req, res) => {
     let result = {};
 
     result.artist = $(this)
-      .find('.review__title > ul > li')
+      .find('.artist-list > li')
       .text();
     result.title = $(this)
       .find('.review__title-album')
@@ -41,7 +42,17 @@ router.get('/', async (req, res) => {
       });
   });
 
-  res.send('Scrape Complete');
+  return res.redirect('/');
+});
+
+router.get('/delete', async (req, res) => {
+  try {
+    await db.Review.collection.drop();
+    return res.redirect('/');
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
 });
 
 module.exports = router;
