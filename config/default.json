@@ -1,3 +1,3 @@
 {
-  "mongoURI": "mongodb+srv://thehottake:MjzHAuelfCymoUpq@thehottake-xahst.mongodb.net/test?retryWrites=true&w=majority"
+  "mongoURI": "mongodb://thehottake:hipster1@ds335957.mlab.com:35957/heroku_8fth1gv9"
 }
