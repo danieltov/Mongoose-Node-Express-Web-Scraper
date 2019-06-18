@@ -30,11 +30,12 @@ router.get('/:id', async (req, res) => {
 // Route for saving/updating an Review's associated Comment
 router.post('/:id', async (req, res) => {
   try {
-    await db.Review.findOneAndUpdate(
+    const updatedReview = await db.Review.findOneAndUpdate(
       { _id: req.params.id },
       { $push: { comments: req.body } },
       { new: true }
     );
+    return res.json(updatedReview);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

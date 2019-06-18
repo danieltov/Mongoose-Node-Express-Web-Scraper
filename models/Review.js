@@ -6,6 +6,9 @@ const ReviewSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'users'
   },
+  artist: {
+    type: String
+  },
   title: {
     type: String
   },
